@@ -10,6 +10,9 @@
                 <a href="{{route('brands.create')}}" type="button" class="btn btn-primary btn-sm float-right">Add New brand</a>
                 </div>
                 <div class="card-body">
+                    <b-button variant="primary">
+                        Notifications <b-badge variant="light">4</b-badge>
+                      </b-button>
 
                     <table class="table">
 
@@ -31,19 +34,9 @@
                                     <td>Otto</td>
                                     <td>{{ $brand->created_at }}</td>
                                     <td>
-
-
-                        
-                                        
-                                         <form action="{{ route('brands.destroy' , $brand->id)}}" method="POST">
                                         <a href="{{route('brands.show', $brand)}}" class="btn btn-outline-secondary btn-sm">Show</a>
                                         <a href="{{route('brands.edit', $brand)}}" class="btn btn-outline-secondary btn-sm">Edit</a>
-                                        <input name="_method" type="hidden" value="DELETE">
-                                        {{ csrf_field() }}
-
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                        
-                                    </form>
+                                    {{-- @include('_partials.delete_confirmation', ['model'=> $brand, 'route'=> route('brands.destroy'),  "msg"=> "Are you sure you want to delete $brand->name ?"]) --}}
                                     </td>
                                 </tr>
                             @endforeach

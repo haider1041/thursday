@@ -9,6 +9,7 @@ use App\Area;
 use App\User;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\BrandRequest;
 
 
 class BrandController extends Controller
@@ -29,7 +30,7 @@ class BrandController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(BrandRequest $request)
     {
         Brand::create($request->all());
         emotify('success', 'Your brand has been saved.');
@@ -39,57 +40,60 @@ class BrandController extends Controller
 
     public function show(brand $brand,Request $request)
     {
-        error_log($brand->id);
+
+        return view('brand.show', ['brand' => $brand]);
+    //     error_log($brand->id);
 
 
-        $brand_locations=Brand_location::where('brand_id', '=', $brand->id)->paginate(10);
-
-        
-        $areas=Area::all();
-        foreach($brand_locations as $brand_location)
-        {
-            foreach($areas as $area)
-            {
-            if($brand_location->area_id==$area->id)
-            {
-                        error_log($brand_location->id);
-
-            $brand_location->area_id=$area->name;
-            }
-        }
-        }
-
-         $vouchers=Voucher::where('brand_id', '=', $brand->id)->paginate(10);
+    //     $brand_locations=Brand_location::where('brand_id', '=', $brand->id)->paginate(10);
 
 
-        $users=User::all();
-        foreach($vouchers as $voucher)
-        {
-            foreach($users as $user)
-            {
-            if($voucher->user_id==$user->id)
-            {
-            $voucher->user_id=$user->name;
-            }
-        }
-        
-        }
+    //    // $brand_locations = Area::all()->pluck('name')->toArray();
+    //    $areas = Area::all();
+    //     foreach($brand_locations as $brand_location)
+    //     {
+    //         foreach($areas as $area)
+    //         {
+    //         if($brand_location->area_id==$area->id)
+    //         {
+    //                     error_log($brand_location->id);
 
-        $brands=Brand::all();
-        foreach($vouchers as $voucher)
-        {
-            foreach($brands as $brand)
-            {
-            if($voucher->brand_id==$brand->id)
-            {
-            $voucher->brand_id=$brand->name;
-            }
-        }
-        
-        }
-    
+    //         $brand_location->area_id=$area->name;
+    //         }
+    //     }
+    //     }
 
-        return view('brand.show',['brand_locations'=>$brand_locations,'vouchers'=>$vouchers]);
+    //      $vouchers=Voucher::where('brand_id', '=', $brand->id)->paginate(10);
+
+
+    //     $users=User::all();
+    //     foreach($vouchers as $voucher)
+    //     {
+    //         foreach($users as $user)
+    //         {
+    //         if($voucher->user_id==$user->id)
+    //         {
+    //         $voucher->user_id=$user->name;
+    //         }
+    //     }
+
+    //     }
+
+    //     $brands=Brand::all();
+    //     foreach($vouchers as $voucher)
+    //     {
+    //         foreach($brands as $brand)
+    //         {
+    //         if($voucher->brand_id==$brand->id)
+    //         {
+    //         $voucher->brand_id=$brand->name;
+    //         }
+    //     }
+
+    //     }
+
+
+    //     return view('brand.show',['brand_locations'=>$brand_locations,'vouchers'=>$vouchers]);
     }
 
 
@@ -98,20 +102,20 @@ class BrandController extends Controller
 
         return view('brand.edit',['brands'=>$brand]);
 
-        
+
     }
 
 
     public function update(Request $request, Brand $brand)
     {
-        
+
 
         error_log($request->name);
 
         $brands=Brand::find($brand->id);
         $brands->name=$request->name;
         $brands->save();
-        
+
         error_log('accccccccccc');
 
         emotify('success', 'Your neenenenenenebrand has been saved.');
@@ -130,7 +134,7 @@ class BrandController extends Controller
 
 
         return redirect('/brands');
-        
+
 
     }
 }

@@ -30,17 +30,12 @@
                                 <td>{{ $area->latitude }}</td>
                                 <td>
 
-                                    <form action="{{ route('areas.destroy' , $area->id)}}" method="POST">
+
                                         <a href="{{route('areas.show', $area)}}"
                                             class="btn btn-outline-secondary btn-sm">Show</a>
                                         <a href="{{route('areas.edit', $area)}}"
                                             class="btn btn-outline-secondary btn-sm">Edit</a>
-                                        <input name="_method" type="hidden" value="DELETE">
-                                        {{ csrf_field() }}
 
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-
-                                    </form>
                                 </td>
                             </tr>
                             @endforeach
