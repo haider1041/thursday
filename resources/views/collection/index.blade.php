@@ -24,7 +24,7 @@
                             @foreach($collections as $collection)
                             <tr>
                                 <th scope="row">{{ $collection->id }}</th>
-                                <td>{{ $collection->user_id }}</td>
+                                <td>{{ $collection->user->name }}</td>
                                 <td>{{ $collection->bin_id }}</td>
                                 <td>{{ $collection->weight }}</td>
                                 <td>{{ $collection->date }}</td>

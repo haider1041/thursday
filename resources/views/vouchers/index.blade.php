@@ -32,21 +32,56 @@
                             <tr>
                                 <th scope="row">{{ $voucher->id }}</th>
                                 <td>{{ $voucher->couponcode}}</td>
-                                <td>{{ $voucher->brand_id}}</td>
-                                <td>{{ $voucher->user_id}}</td>
+                                <td>{{ $voucher->user->name}}</td>
+                                <td>{{ $voucher->brand->name}}</td>
+
                                 <td>{{ $voucher->discount}}</td>
                                 <td>{{ $voucher->expiry}}</td>
                                 <td>{{ $voucher->redeemed}}</td>
                                 <td>
 
-                                    <form action="{{ route('vouchers.destroy' , $voucher->id)}}" method="POST">
 
-                                        <a href="{{route('vouchers.edit', $voucher)}}"
-                                            class="btn btn-outline-secondary btn-sm">Edit</a>
-                                        <input name="_method" type="hidden" value="DELETE">
-                                        {{ csrf_field() }}
+                                    <a href="{{route('vouchers.edit', $voucher)}}" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                    @php
+                                    $mainid=$voucher->id
 
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    @endphp
+
+                                    <button class="btn btn-danger " data-catid={{$mainid}} data-toggle="modal" data-target="#delete{{$mainid}}">Delete</button>
+
+                                    <div class="modal modal-danger fade" id="delete{{$mainid}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" id="{{$mainid}}" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+
+                                                    <h4 class="modal-title text-center" id="myModalLabel{{$mainid}}">
+                                                        Delete
+                                                        Confirmation
+                                                    </h4>
+                                                </div>
+                                                <form name="myform" id="myform" action="{{route('vouchers.destroy',$mainid )}}" method="POST">
+                                                    {{csrf_field()}}
+                                                    @method('put')
+                                                    <div class="modal-body">
+                                                        <p class="text-center">
+                                                            Are you sure you want to delete?
+                                                        </p>
+                                                        <input type="hidden" name="_method" value="delete" />
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn btn-success" data-dismiss="modal">No</button>
+                                                        <button type="submit" onclick="form_submit()" class="btn btn-danger center">Yes</button>
+                                                    </div>
+                                                </form>
+                                                <script type="text/javascript">
+                                                    function form_submit() {
+                                                        document.getElementById("myform").submit();
+                                                    }
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     </form>
                                 </td>

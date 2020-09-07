@@ -17,20 +17,9 @@ class CollectionController extends Controller
     {
         $paginate = ($request->get('show')) ? $request->get('show') : 15;
         $collections = Collection::orderBy('date')->paginate($paginate);
-        $users=User::all();
-        foreach($collections as $collection)
-        {
-            foreach($users as $user)
-            {
-            if($collection->user_id==$user->id)
-            {
-            $collection->user_id=$user->name;
-            }
-        }
-        }
-        
 
-        return view('collection.index',['collections'=>$collections,]);
+
+        return view('collection.index', ['collections' => $collections,]);
     }
 
     /**

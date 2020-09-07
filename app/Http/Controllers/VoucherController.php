@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Voucher;
 use App\User;
 use App\Brand;
+use App\Http\Requests\VoucherRequest;
+
 
 use Illuminate\Http\Request;
 
@@ -17,39 +19,11 @@ class VoucherController extends Controller
      */
     public function index(Request $request)
     {
-         $paginate = ($request->get('show')) ? $request->get('show') : 10;
-        $vouchers = Voucher::orderBy('redeemed')->orderBy('expiry','DESC')->paginate($paginate);
+        $paginate = ($request->get('show')) ? $request->get('show') : 10;
+        $vouchers = Voucher::orderBy('redeemed')->orderBy('expiry', 'DESC')->paginate($paginate);
 
-        $users=User::all();
-        foreach($vouchers as $voucher)
-        {
-            foreach($users as $user)
-            {
-            if($voucher->user_id==$user->id)
-            {
-            $voucher->user_id=$user->name;
-            }
-        }
-        
-        }
 
-        $brands=Brand::all();
-        foreach($vouchers as $voucher)
-        {
-            foreach($brands as $brand)
-            {
-            if($voucher->brand_id==$brand->id)
-            {
-            $voucher->brand_id=$brand->name;
-            }
-        }
-        
-        }
-
-        
-
-        return view('vouchers.index',['vouchers'=>$vouchers,]);
-    
+        return view('vouchers.index', ['vouchers' => $vouchers,]);
     }
 
     /**
@@ -59,24 +33,24 @@ class VoucherController extends Controller
      */
     public function create()
     {
-        $id='cashbinuser';
-        $brands=Brand::all();
+        $id = 'cashbinuser';
+        $brands = Brand::all();
         $users = User::all();
-        return view('vouchers.create',['brands'=>$brands,'users'=>$users,]);   
-     }
+        return view('vouchers.create', ['brands' => $brands, 'users' => $users,]);
+    }
 
-    
-    public function store()
+
+    public function store(VoucherRequest $request)
     {
-        $voucher=new Voucher();
-        $voucher->couponcode=request('couponcode');
-        $voucher->user_id=request('user');
-        $voucher->brand_id=request('brand');
-        $voucher->discount=request('discount');
-        $voucher->expiry=request('date');
-        $voucher->redeemed='No';
-         $voucher->save();
-         emotify('success', 'Your voucher has been saved.');
+        $voucher = new Voucher();
+        $voucher->couponcode = request('couponcode');
+        $voucher->user_id = request('user');
+        $voucher->brand_id = request('brand');
+        $voucher->discount = request('discount');
+        $voucher->expiry = request('expiry');
+        $voucher->redeemed = 'No';
+        $voucher->save();
+        emotify('success', 'Your voucher has been saved.');
         return redirect()->route('vouchers.index');
     }
 
@@ -99,10 +73,10 @@ class VoucherController extends Controller
      */
     public function edit(voucher $voucher)
     {
-        $users=User::all();
-        $brands=Brand::all();
+        $users = User::all();
+        $brands = Brand::all();
 
-        return view('vouchers.edit',['vouchers'=>$voucher,'users'=>$users,'brands'=>$brands,]);
+        return view('vouchers.edit', ['vouchers' => $voucher, 'users' => $users, 'brands' => $brands,]);
     }
 
     /**
@@ -112,22 +86,22 @@ class VoucherController extends Controller
      * @param  \App\voucher  $voucher
      * @return \Illuminate\Http\Response
      */
-     public function update(Request $request, Voucher $voucher)
+    public function update(VoucherRequest $request, Voucher $voucher)
     {
-        
 
-        error_log($request->name);
 
-        $vouchers=Voucher::find($voucher->id);
-        $vouchers->couponcode=$request->couponcode;
-        $vouchers->brand_id=$request->brand;
-        $vouchers->user_id=$request->user;
-        $vouchers->discount=$request->discount;
-        $vouchers->expiry=$request->date;
-        $vouchers->redeemed=$request->redeemed;
+        error_log($request->expiry);
+
+        $vouchers = Voucher::find($voucher->id);
+        $vouchers->couponcode = $request->couponcode;
+        $vouchers->brand_id = $request->brand;
+        $vouchers->user_id = $request->user;
+        $vouchers->discount = $request->discount;
+        $vouchers->expiry = $request->expiry;
+        $vouchers->redeemed = $request->redeemed;
 
         $vouchers->save();
-        
+
         error_log('accccccccccc');
 
         emotify('success', 'Your voucher has been updated.');
@@ -140,7 +114,7 @@ class VoucherController extends Controller
      * @param  \App\voucher  $voucher
      * @return \Illuminate\Http\Response
      */
-   public function destroy($id)
+    public function destroy($id)
     {
 
 
@@ -151,7 +125,5 @@ class VoucherController extends Controller
 
 
         return redirect('/vouchers');
-        
-
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Area;
 use App\City;
 use Illuminate\Http\Request;
+use App\Http\Requests\AreaRequest;
 
 class AreaController extends Controller
 {
@@ -15,24 +16,12 @@ class AreaController extends Controller
      */
     public function index(request $request)
     {
-        
+
         $paginate = ($request->get('show')) ? $request->get('show') : 10;
         $areas = Area::orderBy('id', 'DESC')->paginate($paginate);
 
-        $cities=City::all();
-        foreach($areas as $area)
-        {
-            foreach($cities as $city)
-            {
-            if($area->city_id==$city->id)
-            {
-            $area->city_id=$city->name;
-            }
-        }
-        }
-        
-        return view('area.index',['areas'=>$areas,]);
 
+        return view('area.index', ['areas' => $areas,]);
     }
 
     /**
@@ -42,11 +31,9 @@ class AreaController extends Controller
      */
     public function create()
     {
-        
-        $cities=City::all();
-        return view('area.create',['cities'=>$cities,]);
 
-
+        $cities = City::all();
+        return view('area.create', ['cities' => $cities,]);
     }
 
     /**
@@ -55,19 +42,19 @@ class AreaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(AreaRequest $request)
     {
-        
 
-        $area=new Area();
-        $area->name=request('name');
-        $area->city_id=request('city');
-        $area->longitude=request('longitude');
-        $area->latitude=request('latitude');
-         $area->save();
-         emotify('success', 'Your area has been saved.');
+
+        $area = new Area();
+        $area->name = $request->name;
+        error_log($request->name);
+        $area->city_id = request('city');
+        $area->longitude = request('longitude');
+        $area->latitude = request('latitude');
+        $area->save();
+        emotify('success', 'Your area has been saved.');
         return redirect()->route('areas.index');
-
     }
 
     /**

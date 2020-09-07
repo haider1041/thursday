@@ -45,9 +45,14 @@
                         <div class="form-group row">
                             <label for="date" class="col-md-4 col-form-label text-md-right">Date</label>
                             <div class="col-md-6">
-                                <input id="date" type="text" class="form-control @error('name') is-invalid @enderror"
+                                <input id="date" type="text" class="form-control @error('date') is-invalid @enderror"
                                     name="date" value="{{ old('name') }}" required autofocus>
                             </div>
+                            @error('date')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
 
 
                         </div>

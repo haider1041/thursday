@@ -15,8 +15,9 @@
                             <label for="area" class="col-md-4 col-form-label text-md-right">Brand Name</label>
 
                             <div class="col-md-6">
-                                <select name="brand" class="form-control @error('name') is-invalid @enderror"
-                                    id="brand">
+                                <select name="brand" class="form-control" id="brand">
+
+
 
                                     @foreach($brands as $brand)
                                     <option value="{{ $brand->id }}"> {{$brand->name}}</option>
@@ -30,7 +31,7 @@
                             <label for="area" class="col-md-4 col-form-label text-md-right">Area Name</label>
 
                             <div class="col-md-6">
-                                <select name="area" class="form-control @error('name') is-invalid @enderror" id="area">
+                                <select name="area" class="form-control" id="area">
 
                                     @foreach($areas as $area)
                                     <option value="{{ $area->id }}"> {{$area->name}}</option>
@@ -45,10 +46,14 @@
 
                             <div class="col-md-6">
                                 <input id="longitude" type="text"
-                                    class="form-control @error('name') is-invalid @enderror" name="longitude"
+                                    class="form-control @error('longitude') is-invalid @enderror" name="longitude"
                                     value="{{ old('name') }}" required autofocus>
 
-
+                                @error('longitude')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group row">
@@ -56,14 +61,13 @@
 
                             <div class="col-md-6">
                                 <input id="latitude" type="text"
-                                    class="form-control @error('name') is-invalid @enderror" name="latitude"
+                                    class="form-control @error('latitude') is-invalid @enderror" name="latitude"
                                     value="{{ old('name') }}" required autofocus>
-                                @error('name')
+                                @error('latitude')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-
                             </div>
                         </div>
                         <div class="form-group row mb-0">

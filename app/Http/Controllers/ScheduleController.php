@@ -6,6 +6,8 @@ use App\Schedule;
 use App\User;
 use App\Area;
 use Illuminate\Http\Request;
+use App\Http\Requests\ScheduleRequest;
+
 
 class ScheduleController extends Controller
 {
@@ -16,34 +18,12 @@ class ScheduleController extends Controller
      */
     public function index(request $request)
     {
-        
+
         $paginate = ($request->get('show')) ? $request->get('show') : 10;
         $schedules = Schedule::orderBy('date', 'DESC')->paginate($paginate);
 
-        $users=User::all();
-        foreach($schedules as $schedule)
-        {
-            foreach($users as $user)
-            {
-            if($schedule->user_id==$user->id)
-            {
-            $schedule->user_id=$user->name;
-            }
-        }
-        }
-        $areas=Area::all();
-        foreach($schedules as $schedule)
-        {
-            foreach($areas as $area)
-            {
-            if($schedule->area_id==$area->id)
-            {
-            $schedule->area_id=$area->name;
-            }
-        }
-        }
 
-        return view('schedules.index',['schedules'=>$schedules,]);
+        return view('schedules.index', ['schedules' => $schedules,]);
     }
 
     /**
@@ -53,10 +33,11 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        $users=User::all();
-        $areas=Area::all();
+        $users = User::all();
+        $areas = Area::all();
 
-        return view('schedules.create',['users'=>$users,'areas'=>$areas, ]);    }
+        return view('schedules.create', ['users' => $users, 'areas' => $areas,]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -66,17 +47,18 @@ class ScheduleController extends Controller
      */
     public function store(request $request)
     {
-        
 
 
-        $schedule=new Schedule();
-        $schedule->area_id=request('area');
-        $schedule->user_id=request('user');
-        $schedule->date=request('date');
+
+        $schedule = new Schedule();
+        $schedule->area_id = request('area');
+        $schedule->user_id = request('user');
+        $schedule->date = request('date');
         error_log(request('date'));
-         $schedule->save();
-         emotify('success', 'Your schedule has been saved.');
-        return redirect()->route('schedules.index');    }
+        $schedule->save();
+        emotify('success', 'Your schedule has been saved.');
+        return redirect()->route('schedules.index');
+    }
 
     /**
      * Display the specified resource.
@@ -97,25 +79,24 @@ class ScheduleController extends Controller
      */
     public function edit(schedule $schedule)
     {
-        $users=User::all();
-        $areas=Area::all();
-               return view('schedules.edit',['schedules'=>$schedule,'users'=>$users,'areas'=>$areas]);
-
+        $users = User::all();
+        $areas = Area::all();
+        return view('schedules.edit', ['schedules' => $schedule, 'users' => $users, 'areas' => $areas]);
     }
 
-        public function update(Request $request, Schedule $schedule)
+    public function update(ScheduleRequest $request, Schedule $schedule)
     {
-        
+
 
         error_log($request->name);
 
-        $schedules=Brand::find($schedule->id);
-        $schedules->name=$request->name;
-        $schedules->name=$request->area;
-        $schedules->name=$request->user;
+        $schedules = Schedule::find($schedule->id);
+        $schedules->name = $request->name;
+        $schedules->name = $request->area;
+        $schedules->name = $request->user;
 
         $schedules->save();
-        
+
         error_log('accccccccccc');
 
         emotify('success', 'Your neenenenenenebrand has been saved.');

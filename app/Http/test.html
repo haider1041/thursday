@@ -1,71 +1,19 @@
-<html>
-    <head>
-        <title>Laravel Bootstrap Datepicker</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
-        />
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css"
-            rel="stylesheet"
-        />
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-    </head>
+<html lang="en-US">
 
-    <body>
-        <script type="javascript">
-                       ;(function() {
-            	var randomString = function(length) {
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Today's Date</title>
+    <script>
+        let d = new Date();
+        alert("Today's date is " + d);
+    </script>
+</head>
 
-            		var text = "";
+<body>
 
-            		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+</body>
 
-            		for(var i = 0; i < length; i++) {
 
-            			text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-            		}
-
-            		return text;
-            	}
-
-            	// random string length
-            	var random = randomString(10);
-
-            	// insert random string to the field
-            	var elem = document.getElementById("code").value = random;
-
-            })();
-        </script>
-        <div
-            id="date-picker-example"
-            class="md-form md-outline input-with-post-icon datepicker"
-            inline="true"
-        >
-            <input
-                placeholder="Select date"
-                type="text"
-                id="example"
-                class="form-control"
-            />
-            <label for="example">Try me...</label>
-            <i class="fas fa-calendar input-prefix"></i>
-        </div>
-        ;(function() { var randomString = function(length) { var text = ""; var
-        possible =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for(var i = 0; i < length; i++) { text +=
-        possible.charAt(Math.floor(Math.random() * possible.length)); } return
-        text; } // random string length var random = randomString(10); // insert
-        random string to the field var elem =
-        document.getElementById("code").value = random; })();
-
-        <script type="text/javascript">
-            $('.datepicker').datepicker({
-                    inline: true;
-                });
-        </script>
-    </body>
 </html>

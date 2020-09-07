@@ -33,11 +33,16 @@
                                 </script>
 
                                 <input type="text" id="couponcode" name="couponcode" value="{{$vouchers->couponcode}}"
-                                    class="form-control" />
+                                    class="form-control @error('date') is-invalid @enderror" />
                                 <br><button id="technician" class="btn btn-primary" type="button"
                                     onclick="changeValue(this)">Generate</button>
 
                             </div>
+                            @error('couponcode')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
 
 
                         </div>
@@ -78,19 +83,29 @@
                             <label for="date" class="col-md-4 col-form-label text-md-right">Discount</label>
                             <div class="col-md-6">
                                 <input id="discount" type="text"
-                                    class="form-control @error('name') is-invalid @enderror" name="discount"
+                                    class="form-control @error('discount') is-invalid @enderror" name="discount"
                                     value="{{$vouchers->discount}}" required autofocus>
                             </div>
 
 
                         </div>
+                        @error('discount')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                         <div class="form-group row">
                             <label for="date" class="col-md-4 col-form-label text-md-right">Expiry Date</label>
                             <div class="col-md-6">
-                                <input id="date" type="text" class="form-control @error('name') is-invalid @enderror"
+                                <input id="date" type="text" class="form-control @error('date') is-invalid @enderror"
                                     name="date" value="{{$vouchers->expiry}}" required autofocus>
                             </div>
                         </div>
+                        @error('date')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                         <div class="form-group row">
                             <label for="redeemed" class="col-md-4 col-form-label text-md-right">Redeemed</label>
 
